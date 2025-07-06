@@ -1,0 +1,109 @@
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title><%= blog.title %> - Blogify</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+
+    <div class="main-container">
+      <article class="blog-post">
+        <h1 class="blog-post-title"><%= blog.title %></h1>
+
+        <div class="blog-post-meta">
+          <div class="blog-post-author">
+            <img
+              src="<%= blog.createBy.imageURL %>"
+              alt="<%= blog.createBy.fullName %>"
+              class="blog-post-author-avatar"
+            />
+            <div>
+              <div class="blog-post-author-name">
+                <%= blog.createBy.fullName %>
+              </div>
+              <div style="font-size: 0.875rem; color: var(--text-secondary)">
+                Published on <%= new
+                Date(blog.createdAt).toLocaleDateString('en-US', { year:
+                'numeric', month: 'long', day: 'numeric' }) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <img
+          src="<%= blog.coverImage %>"
+          alt="<%= blog.title %>"
+          class="blog-post-image"
+        />
+
+        <div class="blog-post-content"><%= blog.content %></div>
+      </article>
+
+      <div class="comments-section">
+        <% if (locals.comments && comments.length > 0) { %>
+        <h2 class="comments-title">Comments (<%= comments.length %>)</h2>
+        <div class="comments-list">
+          <% comments.forEach(comment => { %>
+          <div class="comment">
+            <div class="comment-header">
+              <img
+                src="<%= comment.createdBy.imageURL %>"
+                alt="<%= comment.createdBy.fullName %>"
+                class="comment-avatar"
+              />
+              <span class="comment-author"
+                ><%= comment.createdBy.fullName %></span
+              >
+              <span style="color: var(--text-secondary); font-size: 0.875rem">
+                <%= new Date(comment.createdAt).toLocaleDateString('en-US') %>
+              </span>
+            </div>
+            <div class="comment-content"><%= comment.content %></div>
+          </div>
+          <% }); %>
+        </div>
+        <% } else { %>
+        <h2 class="comments-title">Comments</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem">
+          Be the first to leave a comment!
+        </p>
+        <% } %> <% if (locals.user) { %>
+        <div class="comment-form">
+          <h3 style="margin-bottom: 1rem; color: var(--text-primary)">
+            Leave a Comment
+          </h3>
+          <form action="/blog/comment/<%= blog._id %>" method="post">
+            <div class="form-group">
+              <textarea
+                name="content"
+                class="form-textarea"
+                placeholder="Share your thoughts..."
+                rows="4"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Post Comment</button>
+          </form>
+        </div>
+        <% } else { %>
+        <div class="comment-form">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem">
+            <a
+              href="/users/signin"
+              style="
+                color: var(--primary-color);
+                text-decoration: none;
+                font-weight: 600;
+              "
+            >
+              Sign in
+            </a>
+            to leave a comment
+          </p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+  </body>
+</html>

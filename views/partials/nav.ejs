@@ -1,0 +1,77 @@
+<nav class="modern-nav">
+  <div class="nav-container">
+    <a href="/" class="logo">Blogify</a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <% if (locals.user) { %>
+      <li><a href="/blog/addNew" class="nav-link">Write</a></li>
+      <li class="user-menu">
+        <img
+          src="<%= locals.user.imageURL || '/images/avatar.png' %>"
+          alt="User Avatar"
+          class="user-avatar"
+          onclick="toggleDropdown()"
+          onerror="this.src='/images/avatar.png'; console.log('Image failed to load, using default avatar');"
+        />
+        <div class="dropdown-menu" id="userDropdown">
+          <div
+            class="dropdown-item"
+            style="font-weight: 600; color: var(--text-primary)"
+          >
+            <%= locals.user.fullName %>
+          </div>
+          <div
+            class="dropdown-item"
+            style="font-size: 0.875rem; color: var(--text-secondary)"
+          >
+            <%= locals.user.email %>
+          </div>
+          <hr
+            style="
+              margin: 0.5rem 0;
+              border: none;
+              border-top: 1px solid var(--border-color);
+            "
+          />
+          <a href="/users/logout" class="dropdown-item">Logout</a>
+        </div>
+      </li>
+      <% } else { %>
+      <li><a href="/users/signin" class="btn-secondary">Sign In</a></li>
+      <li><a href="/users/signup" class="btn-primary">Sign Up</a></li>
+      <% } %>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  function toggleDropdown() {
+    const dropdown = document.getElementById("userDropdown");
+    dropdown.classList.toggle("show");
+  }
+
+  document.addEventListener("click", function (event) {
+    const userMenu = document.querySelector(".user-menu");
+    const dropdown = document.getElementById("userDropdown");
+
+    if (!userMenu.contains(event.target)) {
+      dropdown.classList.remove("show");
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const avatar = document.querySelector(".user-avatar");
+    if (avatar) {
+      console.log("Avatar image src:", avatar.src);
+
+      const testImg = new Image();
+      testImg.onload = function () {
+        console.log("Avatar image loaded successfully");
+      };
+      testImg.onerror = function () {
+        console.log("Avatar image failed to load, check the path");
+      };
+      testImg.src = avatar.src;
+    }
+  });
+</script>

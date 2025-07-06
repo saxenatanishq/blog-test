@@ -1,0 +1,61 @@
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Write a Blog - Blogify</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+
+    <div class="main-container">
+      <div class="form-container" style="max-width: 800px">
+        <h1 class="form-title">Write Your Story</h1>
+
+        <form action="/blog/addNew" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-input"
+              placeholder="Enter an engaging title for your blog"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="coverImage" class="form-label">Cover Image</label>
+            <input
+              type="file"
+              id="coverImage"
+              name="coverImage"
+              class="form-input"
+              accept="image/*"
+              required
+            />
+            <small style="color: var(--text-secondary); font-size: 0.875rem">
+              Choose a compelling image that represents your blog post
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="content" class="form-label">Content</label>
+            <textarea
+              id="content"
+              name="content"
+              class="form-textarea"
+              placeholder="Write your blog content here..."
+              rows="12"
+              required
+            ></textarea>
+          </div>
+
+          <div class="flex gap-3">
+            <button type="submit" class="btn-primary">Publish Blog</button>
+            <a href="/" class="btn-secondary"> Cancel </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

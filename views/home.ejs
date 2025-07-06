@@ -1,0 +1,62 @@
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Blogify - Share Your Stories</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+
+    <div class="main-container">
+      <% if (!locals.user) { %>
+      <div class="hero">
+        <h1>Welcome to Blogify</h1>
+        <p>
+          Discover amazing stories, share your thoughts, and connect with
+          writers from around the world.
+        </p>
+      </div>
+      <% } %> 
+      <% if (blogs && blogs.length > 0) { %>
+      <div class="blog-grid">
+        <% blogs.forEach(blog => { %>
+        <a href="/blog/<%= blog._id %>" class="blog-card">
+          <img
+            src="<%= blog.coverImage %>"
+            alt="<%= blog.title %>"
+            class="blog-card-image"
+          />
+          <div class="blog-card-content">
+            <h3 class="blog-card-title"><%= blog.title %></h3>
+            <p class="blog-card-excerpt"><%= blog.content %></p>
+            <% if (blog.createBy) { %>
+            <div class="blog-card-meta">
+              <img
+                src="<%= blog.createBy.imageURL %>"
+                alt="<%= blog.createBy.fullName %>"
+                class="author-avatar"
+              />
+              <span class="author-name"><%= blog.createBy.fullName %></span>
+            </div>
+            <% } %>
+          </div>
+        </a>
+        <% }); %>
+      </div>
+      <% } else { %>
+      <div class="text-center" style="padding: 4rem 0">
+        <h2 style="color: var(--text-secondary); margin-bottom: 1rem">
+          No blogs yet
+        </h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem">
+          Be the first to share your story!
+        </p>
+        <% if (locals.user) { %>
+        <a href="/blog/addNew" class="btn-primary">Write Your First Blog</a>
+        <% } else { %>
+        <a href="/users/signup" class="btn-primary">Get Started</a>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>
