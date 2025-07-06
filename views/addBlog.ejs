@@ -10,6 +10,10 @@
       <div class="form-container" style="max-width: 800px">
         <h1 class="form-title">Write Your Story</h1>
 
+        <% if(locals.error) { %>
+        <div class="alert alert-error"><%= locals.error %></div>
+        <% } %>
+
         <form action="/blog/addNew" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="title" class="form-label">Title</label>
